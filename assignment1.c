@@ -149,20 +149,8 @@ int main()
 			break;
 		}
 		for(int b = 1; b < calculate_days_in_month (year, i)+ 1; b++) 
-		if((b + w) % 7 == 0)
 		{
-			if( (b / 10) >= 1)
-			{
-				printf(" %d  \n",b);
-			}
-			else 
-			{
-				printf("  %d  \n",b);
-			}
-		}
-		else		
-		{
-			if( (b / 10) > 1)
+			if((b / 10) > 0)
 			{
 				printf(" %d  ",b);
 			}
@@ -170,8 +158,12 @@ int main()
 			{
 				printf("  %d  ",b);
 			}
-		
+			if((b + w) % 7 == 0)
+			{
+					printf("\n");
+			}
 		}
+		
 	printf("\n");
 	}
 	return 0;
