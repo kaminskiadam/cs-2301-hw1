@@ -14,11 +14,19 @@ int is_leap_year (int year_number)
 	}
 }
 
-int main()
+int input = 0;
+int main(input)
 {
-	int a= 1600;
-	int b = is_leap_year (a); 
-	printf("answer is %d\n",b); 
-	return 0;
+	if (input != 0)
+	{
+		return is_leap_year (input);
+	}
+	else
+	{
+		printf("please enter a year"\n);
+		scanf("%d",input);
+		return is_leap_year (input);
+	}
+
 }
 
