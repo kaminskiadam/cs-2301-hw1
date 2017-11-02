@@ -76,60 +76,103 @@ int main()
 	int year;
 	printf ("please enter a year\n");
 	scanf("%d",&year);
-	printf("\n");
 	for(int i = 0; i < 12; i++)
 	{
 		switch(i)
 		{
 		case 0:
-			printf("January\n");
+			printf("\nJanuary\n");
 			break;
 		case 1:
-			printf("February\n");
+			printf("\nFebruary\n");
 			break;
 		case 2:
-			printf("March\n");
+			printf("\nMarch\n");
 			break;
 		case 3:
-			printf("April\n");
+			printf("\nApril\n");
 			break;
 		case 4:
-			printf("May\n");
+			printf("\nMay\n");
 			break;
 		case 5:
-			printf("June\n");
+			printf("\nJune\n");
 			break;
 		case 6:
-			printf("July\n");
+			printf("\nJuly\n");
 			break;
 		case 7:
-			printf("August\n");
+			printf("\nAugust\n");
 			break;
 		case 8:
-			printf("September\n");
+			printf("\nSeptember\n");
 			break;
 		case 9:
-			printf("October\n");
+			printf("\nOctober\n");
 			break;
 		case 10:
-			printf("November\n");
+			printf("\nNovember\n");
 			break;
 		case 11:
-			printf("December\n");
+			printf("\nDecember\n");
 			break;
 		default:
 			printf("Invalid month!\n");
 			break;
 		}
-		printf("Sun  Mon  Tue  Wed  Thu  Fri Sat\n");
-		for(int b = 1; b < 31+ 1; b++) 
-//calculate_days_in_month (year, i); b++)
+		printf("Sun  Mon  Tue  Wed  Thu  Fri  Sat\n");
+		int w = calculate_day_of_week (1, i, year);
+		switch(w)
 		{
-		printf("%d",b);
+		case 0:
+			break;
+		case 1:
+			printf("     ");
+			break;
+		case 2:
+			printf("          ");
+			break;
+		case 3:
+			printf("               ");
+			break;
+		case 4:
+			printf("                    ");
+			break;
+		case 5:
+			printf("                         ");
+			break;
+		case 6:
+			printf("                              ");
+			break;
+		default:
+			printf("Invalid day of week!\n");
+			break;
 		}
-
+		for(int b = 1; b < calculate_days_in_month (year, i)+ 1; b++) 
+		if((b + w) % 7 == 0)
+		{
+			if( (b / 10) >= 1)
+			{
+				printf(" %d  \n",b);
+			}
+			else 
+			{
+				printf("  %d  \n",b);
+			}
+		}
+		else		
+		{
+			if( (b / 10) > 1)
+			{
+				printf(" %d  ",b);
+			}
+			else 
+			{
+				printf("  %d  ",b);
+			}
 		
-
+		}
+	printf("\n");
 	}
 	return 0;
 }
