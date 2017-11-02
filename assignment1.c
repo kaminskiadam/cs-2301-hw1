@@ -122,42 +122,13 @@ int main()
 		}
 		printf("Sun  Mon  Tue  Wed  Thu  Fri  Sat\n");
 		int w = calculate_day_of_week (1, i, year);
-		switch(w)
+		for(int a = 0; a < w ; a++)
 		{
-		case 0:
-			break;
-		case 1:
 			printf("     ");
-			break;
-		case 2:
-			printf("          ");
-			break;
-		case 3:
-			printf("               ");
-			break;
-		case 4:
-			printf("                    ");
-			break;
-		case 5:
-			printf("                         ");
-			break;
-		case 6:
-			printf("                              ");
-			break;
-		default:
-			printf("Invalid day of week!\n");
-			break;
 		}
 		for(int b = 1; b < calculate_days_in_month (year, i)+ 1; b++) 
 		{
-			if((b / 10) > 0)
-			{
-				printf(" %d  ",b);
-			}
-			else 
-			{
-				printf("  %d  ",b);
-			}
+			printf(" %2d  ",b);
 			if((b + w) % 7 == 0)
 			{
 					printf("\n");
