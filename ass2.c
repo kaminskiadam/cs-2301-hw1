@@ -118,7 +118,7 @@ int is_straight(int cards[], int array_size)
 	{
 		sorta[i] = sorta[i] % 13;
 	}
-	printf("\n card suites= %d %d %d %d %d \n",sorta[0],sorta[1],sorta[2],sorta[3],sorta[4]);
+	//printf("\n card suites= %d %d %d %d %d \n",sorta[0],sorta[1],sorta[2],sorta[3],sorta[4]);
 	//sorter
 	int w = 0;
 	while(w == 0)
@@ -147,7 +147,7 @@ int is_straight(int cards[], int array_size)
 			}
 		}
 	}
-	printf("\n sorted array %d %d %d %d %d \n",sorta[0],sorta[1],sorta[2],sorta[3],sorta[4]);
+	//printf("\n sorted array %d %d %d %d %d \n",sorta[0],sorta[1],sorta[2],sorta[3],sorta[4]);
 	//check for basic non high ace flush
 	for(int i = 0; i <  (array_size - 1) ;i++)
 	{
@@ -208,7 +208,6 @@ bool is_straight_flush(int cards[], int array_size)
  */
 bool is_n_of_a_kind(int cards[], int array_size, int number_of_a_kind)
 {
-	printf("number of a kind is %d\n", number_of_a_kind);
 	bool n_of_a_kind = false;
 	int sorta[array_size];
 	for(int i = 0; i < array_size ; i++)
@@ -273,7 +272,8 @@ bool is_n_of_a_kind(int cards[], int array_size, int number_of_a_kind)
 			}
 		}
 	}
-	for(int q = 0 ; q < (array_size  - number_of_a_kind) ; q++)
+	//printf("kind1 is after checking if the same %d %d %d\n", kind[0],kind[1],kind[2]); // change to fit kind2specs
+	for(int q = 0 ; q <= (array_size  - number_of_a_kind) ; q++)
 	{
 		if( kind[q] == 1)
 		{
@@ -322,10 +322,42 @@ bool is_full_house(int cards[], int array_size)
 int get_hand_strength(int cards[], int array_size)
 {
 	int strength = 0;
-
-	// leverage all the other functions
-	// if...else if...else if...
-
+	if(is_straight_flush (cards, array_size)== 1)
+	{
+		strength = 8;
+	}
+	else if(is_n_of_a_kind(cards,array_size,4) == 1)
+	{
+		strength = 7;
+	}
+	else if(is_full_house(cards,array_size) == 1)
+	{
+		strength = 6;
+	}
+	else if(is_flush(cards,array_size) == 1)
+	{
+		strength = 5;
+	}
+	else if(is_straight(cards,array_size) == 1)
+	{
+		strength = 4;
+	}
+	else if(is_n_of_a_kind(cards,array_size,3) == 1)
+	{
+		strength = 3;
+	}
+	else if(is_two_pair(cards,array_size) == 1)
+	{
+		strength = 2;
+	}
+	else if(is_n_of_a_kind(cards,array_size,2) == 1)
+	{
+		strength = 1;
+	}
+	else
+	{
+		strength = 0;
+	}
 	return strength;
 }
 
@@ -410,25 +442,35 @@ int main(int argc, const char* argv[])
 		printf("\n");
 	}
 
+	for(int i=0; i<number_of_players; i++)
+	{
+		int arraymake[CARDS_IN_HAND];
+		for(int j=0; j < CARDS_IN_HAND ; j++)
+		{
+			arraymake[j]= players[i][j];
+		}
+		//printf("\n am array %d %d %d %d %d \n",arraymake[0],arraymake[1],arraymake[2],arraymake[3],arraymake[4]);
+		printf("Player %d's card strength is %d\n",i + 1,get_hand_strength(arraymake,CARDS_IN_HAND));
+	}
 
 	/*
 	 * print out each players hand strength here
 	 */
 
 	int tester[5];
-	tester[0]= 4;
-	tester[1]= 0;
-	tester[2]= 0;
-	tester[3]= 0;
-	tester[4]= 0;
-	printf("\n tester array %d %d %d %d %d \n",tester[0],tester[1],tester[2],tester[3],tester[4]);
+	tester[0]= 9;
+	tester[1]= 19;
+	tester[2]= 23;
+	tester[3]= 45;
+	tester[4]= 51;
+	//printf("\n tester array %d %d %d %d %d \n",tester[0],tester[1],tester[2],tester[3],tester[4]);
 	//printf("suite not same? %d\n",get_suite (tester[0])!=get_suite(tester[1])  );
 	//printf("tester is_flush %d\n",is_flush(tester, 5) );
 	//printf("tester straight %d\n", is_straight(tester,5 ) );
 	//printf("tester straight_flush %d\n", is_straight_flush (tester,5 ) );
-	printf("is 4 of a kind %d\n", is_n_of_a_kind (tester,5,4 ) );
+	//printf("is 4 of a kind %d\n", is_n_of_a_kind (tester,5,4 ) );
 
-
+	//printf("strength tester is %d\n" , get_hand_strength (tester, 5));
 	return EXIT_SUCCESS;
 }
 
