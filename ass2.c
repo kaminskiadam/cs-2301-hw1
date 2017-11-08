@@ -77,6 +77,10 @@ int get_suite(int card_number)
 	return card_number / NUMBER_OF_RANKS;//was suits
 }
 
+int get_rank(int card_number)
+{
+	return card_number % NUMBER_OF_RANKS;
+}
 /**
  * Returns if the card array is a flush
  * @param cards  The array of cards
@@ -208,80 +212,41 @@ bool is_straight_flush(int cards[], int array_size)
  */
 bool is_n_of_a_kind(int cards[], int array_size, int number_of_a_kind)
 {
-	bool n_of_a_kind = false;
-	int sorta[array_size];
-	for(int i = 0; i < array_size ; i++)
-	{
-		sorta[i] = cards[i];
-	}
-	for(int i = 0; i < array_size ; i++)
-	{
-		sorta[i] = sorta[i] % 13;
-	}
-	int w = 0;
-	while(w == 0)
-	{
-		int for_int = 0;
-		for(int i = 0; i <  (array_size - 1) ;i++)
-		{
-			if( sorta[i] > sorta[ i + 1 ])
-			{
-				for_int = 1;
-			}
-		}
-		if (for_int == 0)
-		{
-			w = 1;
-		}
-		for(int i = 0; i <  (array_size - 1) ;i++)
-		{
-			if( sorta[i] > sorta[ i + 1 ])
-			{
-				int num1 = sorta[i];
-				int num2 = sorta[i+1];
-				sorta[i] = num2;
-				sorta[i + 1] = num1;
-			}
-		}
-	}
-	//printf("\n sorted array  n of a kind ,%d %d %d %d %d \n",sorta[0],sorta[1],sorta[2],sorta[3],sorta[4]);
-	//now actual n of a kind
-	int kind[array_size + 1 - number_of_a_kind];
-	for(int i = 0; i <=  (array_size - number_of_a_kind) ;i++)
-	{
-		int kind2[number_of_a_kind - 1];
-		for(int w = 0; w < (number_of_a_kind - 1); w++)
-		{
-			kind2[w] = 1;
-		}
-		for(int b = 0 ; b < (number_of_a_kind - 1 ) ; b++)
-		{
-			if(sorta[b+i] != sorta[b+i+1])  //not working
-			{
-				kind2[b]=0;
-			}
-		}
+	// return value, to be set correctly in the function and then returned at the end
+	bool n_of_kind = false;
 
-		//printf("kind2 is after checking if the same %d %d\n", kind2[0],kind2[1]); // change to fit kind2specs
-		kind[i]= 1;
-		for(int e = 0 ; e < number_of_a_kind - 1 ;e++)
-		{
-			if(kind2[e] != 1 )
-			{
-				kind[i] = 0;
-			}
-		}
-	}
-	//printf("kind1 is after checking if the same %d %d %d\n", kind[0],kind[1],kind[2]); // change to fit kind2specs
-	for(int q = 0 ; q <= (array_size  - number_of_a_kind) ; q++)
+	// Declare an array to hold counts of how many cards of each rank there are in the cards[] array
+	// For example if cards = {1, 1, 2, 2, 2}
+	//	 number_counts[1] = 2 and number_counts[2] = 3, all other indices are zero
+	int number_counts[NUMBER_OF_RANKS];
+
+	//  loop through all number_counts and initialize all counts to zero
+	for(int i=0; i < NUMBER_OF_RANKS; i++)
 	{
-		if( kind[q] == 1)
+		number_counts[i] = 0 ;
+	}
+
+	// loop through all cards and increment the corresponding index in number_counts
+	// no bugs are in this loop
+	for(int i=0; i<array_size; i++)
+	{
+		number_counts[get_rank(cards[i])]++;
+	}
+
+	// loop through the array of counts for each rank
+	for(int i=0; i<NUMBER_OF_RANKS;i++)
+	{
+		// if the count for a specific rank is equal to 2, increment pair_counts
+		if(number_counts[i] >= number_of_a_kind)
 		{
-			n_of_a_kind = true;
+			n_of_kind= true;
 		}
 	}
-	return n_of_a_kind;
+
+	return n_of_kind;
+
 }
+
 
 /**
  * Returns if the card array has two (unique) pairs
@@ -291,12 +256,49 @@ bool is_n_of_a_kind(int cards[], int array_size, int number_of_a_kind)
  */
 bool is_two_pair(int cards[], int array_size)
 {
+	// return value, to be set correctly in the function and then returned at the end
 	bool two_pair = false;
 
-	// leave untouched until the lab
+	// Declare an array to hold counts of how many cards of each rank there are in the cards[] array
+	// For example if cards = {1, 1, 2, 2, 2}
+	//	 number_counts[1] = 2 and number_counts[2] = 3, all other indices are zero
+	int number_counts[NUMBER_OF_RANKS];
 
+	//  loop through all number_counts and initialize all counts to zero
+	for(int i=0; i < NUMBER_OF_RANKS; i++)
+	{
+		number_counts[i] = 0 ;
+	}
+
+	// loop through all cards and increment the corresponding index in number_counts
+	// no bugs are in this loop
+	for(int i=0; i<array_size; i++)
+	{
+		number_counts[get_rank(cards[i])]++;
+	}
+
+	// pair_counts is a counter for the number of unique pairs
+	int pair_counts = 0;
+	// loop through the array of counts for each rank
+	for(int i=0; i<NUMBER_OF_RANKS;i++)
+	{
+		// if the count for a specific rank is equal to 2, increment pair_counts
+		if(number_counts[i] >= 2)
+		{
+			pair_counts= pair_counts + 1;
+		}
+	}
+
+	// if pair_counts is equal to 2
+	if(pair_counts == 2)
+	{
+		// the hand does have two pair
+		two_pair = true;
+	}
 	return two_pair;
+
 }
+
 
 /**
  * Returns if the card array is a full house
@@ -306,12 +308,51 @@ bool is_two_pair(int cards[], int array_size)
  */
 bool is_full_house(int cards[], int array_size)
 {
+	// return value, to be set correctly in the function and then returned at the end
 	bool full_house = false;
 
-	// similar to is_two_pair
+	int number_counts[NUMBER_OF_RANKS];
 
+	//  loop through all number_counts and initialize all counts to zero
+	for(int i=0; i < NUMBER_OF_RANKS; i++)
+	{
+		number_counts[i] = 0 ;
+	}
+
+	// loop through all cards and increment the corresponding index in number_counts
+	// no bugs are in this loop
+	for(int i=0; i<array_size; i++)
+	{
+		number_counts[get_rank(cards[i])]++;
+	}
+
+	// pair_counts is a counter for the number of unique pairs
+	int pair_counts = 0;
+	int triple_counts = 0;
+	// loop through the array of counts for each rank
+	for(int i=0; i<NUMBER_OF_RANKS;i++)
+	{
+		// if the count for a specific rank is equal to 2, increment pair_counts
+		if(number_counts[i] == 2)
+		{
+			pair_counts= pair_counts + 1;
+		}
+		if(number_counts[i] >= 3)
+		{
+			triple_counts= triple_counts + 1;
+		}
+	}
+
+	// if pair_counts is equal to 2
+	if((pair_counts >= 1)&&(triple_counts >= 1))
+	{
+		// the hand does have two pair
+		full_house = true;
+	}
 	return full_house;
+
 }
+
 
 /**
  * Returns the strength of the hand
@@ -453,22 +494,19 @@ int main(int argc, const char* argv[])
 		printf("Player %d's card strength is %d\n",i + 1,get_hand_strength(arraymake,CARDS_IN_HAND));
 	}
 
-	/*
-	 * print out each players hand strength here
-	 */
 
-	int tester[5];
-	tester[0]= 9;
-	tester[1]= 19;
-	tester[2]= 23;
-	tester[3]= 45;
-	tester[4]= 51;
-	//printf("\n tester array %d %d %d %d %d \n",tester[0],tester[1],tester[2],tester[3],tester[4]);
-	//printf("suite not same? %d\n",get_suite (tester[0])!=get_suite(tester[1])  );
-	//printf("tester is_flush %d\n",is_flush(tester, 5) );
-	//printf("tester straight %d\n", is_straight(tester,5 ) );
-	//printf("tester straight_flush %d\n", is_straight_flush (tester,5 ) );
-	//printf("is 4 of a kind %d\n", is_n_of_a_kind (tester,5,4 ) );
+	int test_hand[] = {12, 16, 15, 5, 10};
+	qsort(&test_hand, CARDS_IN_HAND, sizeof(int), compare);
+	if(is_n_of_a_kind (test_hand, 5,2))
+	{
+	printf("True");
+	}
+	else
+	{
+	printf("False");
+	}
+	//END OF TEST CODE
+
 
 	//printf("strength tester is %d\n" , get_hand_strength (tester, 5));
 	return EXIT_SUCCESS;
