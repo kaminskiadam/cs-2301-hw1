@@ -26,7 +26,18 @@
  */
 void calculate_final_grades(int number_of_students, int number_of_grades, int *grades[], int *percentages, int *final_grades)
 {
-	// IMPLEMENT (10 points)
+	for(int a = 0 ; a < number_of_students ; a++)
+	{
+		int final = 0;
+		for(int b = 0; b < number_of_grades ; b++)
+		{
+			int new = 0.0;
+			new = grades [a][b] * percentages[b];
+			final = final + new;
+		}
+		final_grades[a] = final / 100;
+		printf("a");
+	}
 }
 
 /**
@@ -64,18 +75,23 @@ double calculate_mean(int number_of_students, int *grades)
 double calculate_standard_deviation(int number_of_students, int *grades)
 {
 	double standard_deviation = -1.0;
-	// IMPLEMENT (10 points)
-	//dont forget divide by 0
-	double x = calculate_mean(number_of_students,grades);
-	double sum_total = 0.0;
-	for(int i = 0 ; i < number_of_students ; i++)
+	if(number_of_students <= 0)
 	{
-		double n = 0;
-		n = (grades[i] - x);
-		sum_total = pow(n,2.0) + sum_total;
+		return -1;
 	}
-	standard_deviation = sqrt((1.0 / number_of_students) * sum_total);
-    return standard_deviation;
+	else
+	{
+		double x = calculate_mean(number_of_students,grades);
+		double sum_total = 0.0;
+		for(int i = 0 ; i < number_of_students ; i++)
+		{
+			double n = 0;
+			n = (grades[i] - x);
+			sum_total = pow(n,2.0) + sum_total;
+		}
+		standard_deviation = sqrt((1.0 / number_of_students) * sum_total);
+		return standard_deviation;
+	}
 }
 
 /**
@@ -279,6 +295,17 @@ int main(int argc, const char *argv[])
 	//printf("mean is %lf\n",calculate_mean(4,tester1d));
 	//printf("grade counts %d\n",grdcnt[0]);
 	//printf("std dev is %lf\n",calculate_standard_deviation(4,tester1d));
+
+	/*
+	int fin[4];
+	int per[] = {10, 20, 10, 60};
+	int grad [4][4];
+	grad[0][0] = 90,grad[0][1] = 80,grad[0][2] = 90,grad[0][3] = 90 ;
+	calculate_final_grades(4,4,grad,per,fin);
+	printf("final grades test %d\n",fin[0]);
 	return EXIT_SUCCESS;
+	*/
+	printf("percent %d\n",percentages[0]);
+
 }
 
