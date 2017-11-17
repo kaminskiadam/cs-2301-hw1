@@ -9,9 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "Grades.h"
 
 #define ALPHABETICAL_GRADES 4
-
 /**
  * Calculates the final grades for each student based on their grades and the percent weight of the grade.
  * Note that this function does not return a value.  The final grades are stored in final_grades.
@@ -36,7 +36,6 @@ void calculate_final_grades(int number_of_students, int number_of_grades, int *g
 			final = final + new;
 		}
 		final_grades[a] = final / 100;
-		printf("a");
 	}
 }
 
@@ -276,8 +275,21 @@ int main(int argc, const char *argv[])
 	/*
 	 * Should add some print outs here for everything.
 	 */
-
 	print_final_grades(number_of_students, final_grades);
+	printf("mean grade is %lf\n",mean);
+	printf("standard deviation is %lf\n",standard_deviation);
+	printf("final grades letter grades are ");
+	for(int i=0; i<number_of_students; i++)
+		{
+			printf("%c " , final_alphabetical_grades[i]);
+		}
+	printf("\n");
+	printf("The number of A's is %d\n", grade_counts [0]);
+	printf("The number of B's is %d\n", grade_counts [1]);
+	printf("The number of C's is %d\n", grade_counts [2]);
+	printf("The number of NR's is %d\n", grade_counts [3]);
+
+
 
 	// need to free memory
 	for(int i=0; i<number_of_students; i++)
@@ -287,12 +299,12 @@ int main(int argc, const char *argv[])
 //////////////////////
 	int grdcnt[4];
 	char chartest[4];
-	int tester1d[] = { 90, 91, 95 ,86};
+	int tester1d[] = { 90, 91, 95 };
 	calculate_letter_grades(4,tester1d, chartest);
 	char gradelist[] = {'A','A','B','N'};
 	get_grade_counts(4,gradelist,grdcnt);
 	//printf("tester 1d %c\n",chartest[2]);
-	//printf("mean is %lf\n",calculate_mean(4,tester1d));
+	//printf("mean is %lf\n",calculate_mean(3,tester1d));
 	//printf("grade counts %d\n",grdcnt[0]);
 	//printf("std dev is %lf\n",calculate_standard_deviation(4,tester1d));
 
@@ -305,7 +317,12 @@ int main(int argc, const char *argv[])
 	printf("final grades test %d\n",fin[0]);
 	return EXIT_SUCCESS;
 	*/
-	printf("percent %d\n",percentages[0]);
+	printf( "percent ");
+	for(int i = 0 ; i < 5 ; i++)
+	{
+		printf( "%d ",percentages[i]);
+	}
+	//printf("percent %d\n",percentages[0]);
 
 }
 
